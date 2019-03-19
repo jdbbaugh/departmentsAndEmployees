@@ -72,14 +72,14 @@ namespace DapperDepartments
             List<Employee> employees = repository.GetAllEmployees();
 
             // Does this method do what it claims to do, or does it need some work?
-            PrintEmployeeReport("All Employees", employees);
+            PrintEmployeeReport("All Employees", employees, false);
 
             Pause();
             
 
-
+            
             employees = repository.GetAllEmployeesWithDepartment();
-            PrintEmployeeReport("All Employees with departments", employees);
+            PrintEmployeeReport("All Employees with departments", employees, true);
 
             Pause();
 
@@ -88,10 +88,10 @@ namespace DapperDepartments
             //  We could use First() here without passing it a condition, but using the index is easy enough.
             Department firstDepartment = departments[0];
             employees = repository.GetAllEmployeesWithDepartmentByDepartmentId(firstDepartment.Id);
-            PrintEmployeeReport($"Employees in {firstDepartment.DeptName}", employees);
+            PrintEmployeeReport($"Employees in {firstDepartment.DeptName}", employees, true);
 
             Pause();
-
+            //HEREREREREREREER=======================
 
             // Instantiate a new employee object.
             //  Note we are making the employee's DepartmentId refer to an existing department.
@@ -106,7 +106,7 @@ namespace DapperDepartments
             repository.AddEmployee(jane);
 
             employees = repository.GetAllEmployeesWithDepartment();
-            PrintEmployeeReport("All Employees after adding Jane", employees);
+            PrintEmployeeReport("All Employees after adding Jane", employees, true);
 
             Pause();
 
@@ -121,7 +121,7 @@ namespace DapperDepartments
             repository.UpdateEmployee(dbJane.Id, dbJane);
 
             employees = repository.GetAllEmployeesWithDepartment();
-            PrintEmployeeReport("All Employees after updating Jane", employees);
+            PrintEmployeeReport("All Employees after updating Jane", employees, true);
 
             Pause();
 
@@ -129,7 +129,7 @@ namespace DapperDepartments
             repository.DeleteEmployee(dbJane.Id);
             employees = repository.GetAllEmployeesWithDepartment();
 
-            PrintEmployeeReport("All Employees after updating Jane", employees);
+            PrintEmployeeReport("All Employees after updating Jane", employees, true);
 
             Pause();
 
@@ -174,7 +174,7 @@ namespace DapperDepartments
         /// </remarks>
         /// <param name="title">Title for the report</param>
         /// <param name="employees">Employee data for the report</param>
-        public static void PrintEmployeeReport(string title, List<Employee> employees)
+        public static void PrintEmployeeReport(string title, List<Employee> employees, bool containsDept)
         {
             /*
              * TODO: Complete this method
@@ -187,9 +187,18 @@ namespace DapperDepartments
                 */
 
             Console.WriteLine(title);
+            int counter = 0;
+            
             foreach(Employee employee in employees)
             {
-                Console.WriteLine($"{employee.Id}: {employee.FirstName} {employee.LastName}");
+                counter++;
+                if (containsDept)
+                {
+                Console.WriteLine($"{counter}: {employee.FirstName} {employee.LastName} Dept:{employee.Department.DeptName}");
+                } else
+                {
+                    Console.WriteLine($"{counter}: {employee.FirstName} {employee.LastName}");
+                }
             }
 
             /*

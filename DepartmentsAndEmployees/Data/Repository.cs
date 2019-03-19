@@ -263,8 +263,8 @@ namespace DapperDepartments.Data
                      * TODO: Complete this method
                      *  Look at GetAllEmployeesWithDepartmentByDepartmentId(int departmentId) for inspiration.
                      */
-                    cmd.CommandText = @"SELECT e.id, e.FirstName, e.LastName, e.DepartmentId, d.DeptName
-                                        FROM Employee e INNER JOIN Department d ON e.DepartmentID = d.id";
+                    cmd.CommandText = @"SELECT e.id, e.FirstName, e.LastName, e.DepartmentId, d.id AS DeptId, d.DeptName
+                                        FROM Employee e INNER JOIN Department d ON e.DepartmentId = d.id";
                     //fHEREREEEREE=================================================
                     SqlDataReader reader = cmd.ExecuteReader();
 
@@ -279,7 +279,7 @@ namespace DapperDepartments.Data
                             DepartmentId = reader.GetInt32(reader.GetOrdinal("DepartmentId")),
                             Department = new Department
                             {
-                                Id = reader.GetInt32(reader.GetOrdinal("DepartmentId")),
+                                Id = reader.GetInt32(reader.GetOrdinal("DeptId")),
                                 DeptName = reader.GetString(reader.GetOrdinal("DeptName"))
                             }
                         };
@@ -345,6 +345,15 @@ namespace DapperDepartments.Data
         /// </summary>
         public void AddEmployee(Employee employee)
         {
+            using (SqlConnection conn = Connection)
+            {
+                conn.Open();
+                using (SqlCommand cmd = conn.CreateCommand())
+                {
+                    cmd.CommandText = $"INSERT INTO Employee (FirstName, LastName, DepartmentId) VALUES({employee.FirstName},{employee.LastName}, {employee.DepartmentId})";
+                }
+
+            }
             /*
              * TODO: Complete this method by using an INSERT statement with SQL
              *  Remember to use SqlParameters!
