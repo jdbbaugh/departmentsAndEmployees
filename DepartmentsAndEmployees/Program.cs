@@ -194,7 +194,7 @@ namespace DapperDepartments
                 counter++;
                 if (containsDept)
                 {
-                Console.WriteLine($"{counter}: {employee.FirstName} {employee.LastName} Dept:{employee.Department.DeptName}");
+                Console.WriteLine($"{counter}: {employee.FirstName} {employee.LastName} Dept: {employee.Department.DeptName}");
                 } else
                 {
                     Console.WriteLine($"{counter}: {employee.FirstName} {employee.LastName}");
