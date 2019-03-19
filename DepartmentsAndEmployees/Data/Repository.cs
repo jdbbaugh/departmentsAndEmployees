@@ -354,7 +354,10 @@ namespace DapperDepartments.Data
                 conn.Open();
                 using (SqlCommand cmd = conn.CreateCommand())
                 {
-                    cmd.CommandText = $"INSERT INTO Employee (FirstName, LastName, DepartmentId) VALUES('{employee.FirstName}','{employee.LastName}', '{employee.DepartmentId}')";
+                    cmd.CommandText = $@"INSERT INTO Employee (FirstName, LastName, DepartmentId) VALUES(@firstName,@lastName, @departmentId)";
+                    cmd.Parameters.Add(new SqlParameter("@departmentId", employee.DepartmentId));
+                    cmd.Parameters.Add(new SqlParameter("@lastName", employee.LastName));
+                    cmd.Parameters.Add(new SqlParameter("@firstName", employee.FirstName));
                     cmd.ExecuteNonQuery();
                     
                 }
@@ -373,7 +376,11 @@ namespace DapperDepartments.Data
                 conn.Open();
                 using (SqlCommand cmd = conn.CreateCommand())
                 {
-                    cmd.CommandText = $"UPDATE Employee SET FirstName = '{employee.FirstName}', LastName = '{employee.LastName}', DepartmentId = '{employee.DepartmentId}' WHERE id={id}";
+                    cmd.CommandText = $@"UPDATE Employee SET FirstName = @firstName, LastName = @lastName, DepartmentId = @departmentId WHERE id=@id";
+                    cmd.Parameters.Add(new SqlParameter("@departmentId", employee.DepartmentId));
+                    cmd.Parameters.Add(new SqlParameter("@lastName", employee.LastName));
+                    cmd.Parameters.Add(new SqlParameter("@firstName", employee.FirstName));
+                    cmd.Parameters.Add(new SqlParameter("@id", id));
                     cmd.ExecuteNonQuery();
                 }
             }
@@ -394,7 +401,8 @@ namespace DapperDepartments.Data
                 conn.Open();
                 using (SqlCommand cmd = conn.CreateCommand())
                 {
-                    cmd.CommandText = $"DELETE FROM Employee WHERE id ={id}";
+                    cmd.CommandText = $@"DELETE FROM Employee WHERE id =@id";
+                    cmd.Parameters.Add(new SqlParameter("@id", id));
                     cmd.ExecuteNonQuery();
                 }
             }
