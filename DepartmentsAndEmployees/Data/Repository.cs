@@ -345,19 +345,21 @@ namespace DapperDepartments.Data
         /// </summary>
         public void AddEmployee(Employee employee)
         {
+            /*
+             * TODO: Complete this method by using an INSERT statement with SQL
+             *  Remember to use SqlParameters!
+             */
             using (SqlConnection conn = Connection)
             {
                 conn.Open();
                 using (SqlCommand cmd = conn.CreateCommand())
                 {
-                    cmd.CommandText = $"INSERT INTO Employee (FirstName, LastName, DepartmentId) VALUES({employee.FirstName},{employee.LastName}, {employee.DepartmentId})";
+                    cmd.CommandText = $"INSERT INTO Employee (FirstName, LastName, DepartmentId) VALUES('{employee.FirstName}','{employee.LastName}', '{employee.DepartmentId}')";
+                    cmd.ExecuteNonQuery();
+                    
                 }
 
             }
-            /*
-             * TODO: Complete this method by using an INSERT statement with SQL
-             *  Remember to use SqlParameters!
-             */
 
         }
 
@@ -366,6 +368,15 @@ namespace DapperDepartments.Data
         /// </summary>
         public void UpdateEmployee(int id, Employee employee)
         {
+            using (SqlConnection conn = Connection)
+            {
+                conn.Open();
+                using (SqlCommand cmd = conn.CreateCommand())
+                {
+                    cmd.CommandText = $"UPDATE Employee SET FirstName = '{employee.FirstName}', LastName = '{employee.LastName}', DepartmentId = '{employee.DepartmentId}' WHERE id={id}";
+                    cmd.ExecuteNonQuery();
+                }
+            }
             /*
              * TODO: Complete this method using an UPDATE statement with SQL
              *  Remember to use SqlParameters!
@@ -378,6 +389,15 @@ namespace DapperDepartments.Data
         /// </summary>
         public void DeleteEmployee(int id)
         {
+            using (SqlConnection conn = Connection)
+            {
+                conn.Open();
+                using (SqlCommand cmd = conn.CreateCommand())
+                {
+                    cmd.CommandText = $"DELETE FROM Employee WHERE id ={id}";
+                    cmd.ExecuteNonQuery();
+                }
+            }
             /*
              * TODO: Complete this method using a DELETE statement with SQL
              *  Remember to use SqlParameters!
